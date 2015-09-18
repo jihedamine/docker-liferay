@@ -1,0 +1,3 @@
+volumes/liferaydata/*
+volumes/mysqldata/*
+volumes/mysqlclientdata/*
