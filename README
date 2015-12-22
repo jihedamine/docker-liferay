@@ -7,21 +7,20 @@ sudo docker ps -aq | xargs sudo docker rm -f
 # THE FOLLOWING COMMANDS USE PATHS RELATIVE TO THE FOLDER CONTAINING THIS FILE
 
 # CREATE MYSQL DATA VOLUME
-sudo docker create --name mysqldata_1 -v ${PWD}/volumes/mysqldata centos
+sudo docker create --name mysqldata_1 -v ${PWD}/volumes/mysqldata busybox
 
 # RUN MYSQL SERVER USING THE DATA VOLUME
-sudo docker run -t --name mysql_1 -e MYSQL_ROOT_PASSWORD=secret --volumes-from mysqldata_1 -d mysql:5.5
+sudo docker run -t --name mysql_1 -e MYSQL_ROOT_PASSWORD=secret --volumes-from mysqldata_1 --publish 0.0.0.0:3306:3306 -d mysql:5.5
 
 # POPULATE DATA VOLUME
-sudo docker build -t mysqlclient mysqlclient/.
-sudo docker run --name mysqlclient_1 -it -v ${PWD}/volumes/mysqlclientdata:/var/mysql/dump:rw --link mysql_1:mysql mysqlclient
+sudo docker exec -i mysql_1 mysql -uroot -psecret < initdb.sql 
 
 # CREATE LIFERAY DATA VOLUME
-sudo docker run -v ${PWD}/volumes/liferaydata:/opt/liferay-portal/data --name liferaydata_1 centos
+sudo docker run -v ${PWD}/volumes/liferaydata:/opt/liferay-portal/data --name liferaydata_1 busybox
 
 # RUN LIFERAY CONNECTED TO MYSQL SERVER
 sudo docker build -t liferay liferay/.
-sudo docker run --name liferay_1 -it -v /tmp/deploy:/opt/liferay-portal/deploy --volumes-from liferaydata_1 --link mysql_1:mysql --publish 127.0.0.1:8080:8080 -d liferay
+sudo docker run --name liferay_1 -it -v /tmp/deploy:/opt/liferay-portal/deploy --volumes-from liferaydata_1 --link mysql_1:mysql --publish 0.0.0.0:8080:8080 -d liferay
 
 # ACCESS LIFERAY'S CONTAINER
 sudo docker exec -it liferay_1 bash
