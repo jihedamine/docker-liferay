@@ -5,13 +5,13 @@ FROM airdock/oracle-jdk:1.7
 RUN apt-get update && apt-get install -y unzip && apt-get install -y wget
 
 # Download and install liferay
-RUN wget https://sourceforge.net/projects/lportal/files/Liferay%20Portal/6.2.4%20GA5/liferay-portal-tomcat-6.2-ce-ga5-20151119152357409.zip
+RUN wget https://sourceforge.net/projects/lportal/files/Liferay%20Portal/6.2.5%20GA6/liferay-portal-tomcat-6.2-ce-ga6-20160112152609836.zip
 
-RUN unzip liferay-portal-tomcat-6.2-ce-ga5-20151119152357409.zip -d /opt
-RUN rm liferay-portal-tomcat-6.2-ce-ga5-20151119152357409.zip
+RUN unzip liferay-portal-tomcat-6.2-ce-ga6-20160112152609836.zip -d /opt
+RUN rm liferay-portal-tomcat-6.2-ce-ga6-20160112152609836.zip
 
 RUN mkdir -p /opt
-RUN ln -s /opt/liferay-portal-6.2-ce-ga5 /opt/liferay-portal
+RUN ln -s /opt/liferay-portal-tomcat-6.2-ce-ga6 /opt/liferay-portal
 RUN ln -s /opt/liferay-portal/tomcat-7.0.62 /opt/liferay-portal/tomcat
 RUN ls -all /srv/java/
 RUN ls /opt/liferay-portal/tomcat/bin/catalina.sh -all

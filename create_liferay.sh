@@ -4,6 +4,8 @@ sudo docker create --name mysqldata_1 -v ${PWD}/volumes/mysqldata busybox
 
 sudo docker run -t --name mysql_1 -e MYSQL_ROOT_PASSWORD=secret --volumes-from mysqldata_1 --publish 0.0.0.0:3306:3306 -d mysql:5.5
 
+sleep 30
+
 sudo docker exec -i mysql_1 mysql -uroot -psecret < initdb.sql
 
 sudo docker run -v ${PWD}/volumes/liferaydata:/opt/liferay-portal/data --name liferaydata_1 busybox
