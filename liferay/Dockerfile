@@ -11,9 +11,8 @@ RUN unzip liferay-portal-tomcat-6.2-ce-ga6-20160112152609836.zip -d /opt
 RUN rm liferay-portal-tomcat-6.2-ce-ga6-20160112152609836.zip
 
 RUN mkdir -p /opt
-RUN ln -s /opt/liferay-portal-tomcat-6.2-ce-ga6 /opt/liferay-portal
+RUN ln -s  /opt/liferay-portal-6.2-ce-ga6 /opt/liferay-portal
 RUN ln -s /opt/liferay-portal/tomcat-7.0.62 /opt/liferay-portal/tomcat
-RUN ls -all /srv/java/
 RUN ls /opt/liferay-portal/tomcat/bin/catalina.sh -all
 
 # Add configuration files
