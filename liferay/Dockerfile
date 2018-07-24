@@ -1,6 +1,10 @@
 # Based on oracle-jdk 1.7 from airdock
 FROM airdock/oracle-jdk:1.7
 
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get autoremove -y
+
 # Install unzip
 RUN apt-get update && apt-get install -y unzip && apt-get install -y wget
 
