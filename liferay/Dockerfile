@@ -1,5 +1,5 @@
 # Based on oracle-jdk 1.7 from airdock
-FROM airdock/oracle-jdk:1.7
+FROM airdock/oracle-jdk:1.8
 
 RUN apt-get update
 RUN apt-get upgrade -y
@@ -31,7 +31,7 @@ VOLUME /opt/liferay-portal/data
 EXPOSE 8080
 
 # Set JAVA_HOME
-ENV JAVA_HOME /srv/java/jdk1.7.0_80/
+ENV JAVA_HOME /srv/java/jdk1.8.0_112/
 
 # Execute liferay
 ENTRYPOINT ["/opt/liferay-portal/tomcat/bin/catalina.sh"]
