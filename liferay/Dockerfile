@@ -1,16 +1,23 @@
 # Based on oracle-jdk 1.7 from airdock
-FROM airdock/oracle-jdk:1.7
+FROM airdock/oracle-jdk:1.8
+
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get autoremove -y
 
 # Install unzip
-RUN apt-get update && apt-get install -y unzip
+RUN apt-get update && apt-get install -y unzip && apt-get install -y wget
 
 # Download and install liferay
-RUN curl -OL http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/6.2.3%20GA4/liferay-portal-tomcat-6.2-ce-ga4-20150416163831865.zip
-RUN unzip liferay-portal-tomcat-6.2-ce-ga4-20150416163831865.zip -d /opt
-RUN rm liferay-portal-tomcat-6.2-ce-ga4-20150416163831865.zip
+RUN wget https://sourceforge.net/projects/lportal/files/Liferay%20Portal/6.2.5%20GA6/liferay-portal-tomcat-6.2-ce-ga6-20160112152609836.zip
 
-RUN ln -s /opt/liferay-portal-6.2-ce-ga4 /opt/liferay-portal
-RUN ln -s /opt/liferay-portal/tomcat-7.0.42 /opt/liferay-portal/tomcat
+RUN unzip liferay-portal-tomcat-6.2-ce-ga6-20160112152609836.zip -d /opt
+RUN rm liferay-portal-tomcat-6.2-ce-ga6-20160112152609836.zip
+
+RUN mkdir -p /opt
+RUN ln -s  /opt/liferay-portal-6.2-ce-ga6 /opt/liferay-portal
+RUN ln -s /opt/liferay-portal/tomcat-7.0.62 /opt/liferay-portal/tomcat
+RUN ls /opt/liferay-portal/tomcat/bin/catalina.sh -all
 
 # Add configuration files
 ADD resources/portal-ext.properties /opt/liferay-portal/portal-ext.properties
@@ -24,7 +31,7 @@ VOLUME /opt/liferay-portal/data
 EXPOSE 8080
 
 # Set JAVA_HOME
-ENV JAVA_HOME /usr/lib/jvm/java-7-oracle/
+ENV JAVA_HOME /srv/java/jdk1.8.0_112/
 
 # Execute liferay
 ENTRYPOINT ["/opt/liferay-portal/tomcat/bin/catalina.sh"]
